@@ -101,3 +101,10 @@ div.resume-button span {
     margin-top: -1.5px;
   }
 }
+
+@media only screen and (max-width: 767px) {
+  .resume-button {
+    transform: translateX(85%) rotateZ(-90deg);
+  }
+}
+

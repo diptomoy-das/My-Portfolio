@@ -175,7 +175,7 @@
   .career-info-in,
   .career-info-box p {
     width: 100%;
-    padding-left: 10%;
+    padding-left: 24px;
     box-sizing: border-box;
   }
   .career-timeline {
@@ -203,7 +203,7 @@
   }
   .career-info-in,
   .career-info-box p {
-    padding-left: 5%;
+    padding-left: 16px;
   }
   .career-section {
     padding-top: 90px;
@@ -214,3 +214,4 @@
     justify-content: left;
   }
 }
+
