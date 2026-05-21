@@ -27,7 +27,8 @@ const setCharacter = (
           blobUrl,
           async (gltf) => {
             character = gltf.scene;
-            await renderer.compileAsync(character, camera, scene);
+
+            // Traverse and modify materials BEFORE compiling the character to WebGL
             character.traverse((child: any) => {
               if (child.isMesh) {
                 const mesh = child as THREE.Mesh;
@@ -40,50 +41,80 @@ const setCharacter = (
                     ? mesh.material
                     : [mesh.material];
 
-                  materials.forEach((mat, idx) => {
-                    if (mat instanceof THREE.MeshStandardMaterial) {
-                      const clonedMat = mat.clone();
-                      const nodeName = child.name;
+                  const newMaterials = materials.map((mat) => {
+                    // Using isMaterial property check to be bundler/version independent
+                    if (mat && (mat as any).isMaterial) {
+                      const clonedMat = mat.clone() as any;
+                      clonedMat.needsUpdate = true;
+                      
+                      const nodeName = child.name || "";
+                      const matName = mat.name || "";
 
-                      if (nodeName === "hair" || nodeName === "Eyebrow") {
-                        // Dark hair and eyebrows
-                        clonedMat.color.setHex(0x0f0b11);
+                      // Match hair and eyebrows (by name or material)
+                      if (
+                        nodeName === "hair" ||
+                        nodeName === "Eyebrow" ||
+                        matName === "Material.030" ||
+                        matName === "Material.014"
+                      ) {
+                        if ('color' in clonedMat) clonedMat.color.setHex(0x0f0b11); // Dark hair
                         clonedMat.roughness = 0.85;
-                      } else if (nodeName === "BODY.SHIRT") {
-                        // Red jacket / hoodie
-                        clonedMat.color.setHex(0xb30915);
+                      }
+                      // Match jacket / hoodie / shirt
+                      else if (
+                        nodeName === "BODY.SHIRT" ||
+                        nodeName.includes("SHIRT") ||
+                        nodeName.includes("BODY") ||
+                        nodeName.includes("shirt") ||
+                        nodeName.includes("body")
+                      ) {
+                        if ('color' in clonedMat) clonedMat.color.setHex(0xd00808); // Vibrant red jacket/dress
                         clonedMat.roughness = 0.65;
-                      } else if (
-                        nodeName === "Cube.002" || // Face mesh
+                      }
+                      // Match skin parts (Face, Ears, Neck, Hands)
+                      else if (
+                        nodeName === "Cube.002" || // Face node
+                        nodeName === "Cube002" || // Face node normalized
+                        nodeName === "Cube.007" || // Face mesh
+                        nodeName === "Cube007" || // Face mesh normalized
                         nodeName === "Neck" ||
                         nodeName === "Hand" ||
-                        nodeName === "Ear.001"
+                        nodeName === "Ear.001" ||
+                        nodeName === "Ear001" ||
+                        nodeName.includes("Ear") ||
+                        nodeName.includes("Hand") ||
+                        nodeName.includes("Neck")
                       ) {
-                        // Skin tone matching the user's photo
-                        clonedMat.color.setHex(0xd6a280);
+                        if ('color' in clonedMat) clonedMat.color.setHex(0xa08870); // Warm tan skin tone
                         clonedMat.roughness = 0.55;
-                      } else if (nodeName === "Pant") {
-                        // Dark pants
-                        clonedMat.color.setHex(0x1a181c);
+                      }
+                      // Match pants
+                      else if (nodeName === "Pant" || nodeName.includes("Pant")) {
+                        if ('color' in clonedMat) clonedMat.color.setHex(0x1a181c);
                         clonedMat.roughness = 0.7;
-                      } else if (nodeName === "Shoe") {
-                        // Dark shoes
-                        clonedMat.color.setHex(0x222222);
-                      } else if (nodeName === "Sole") {
-                        // Contrast soles
-                        clonedMat.color.setHex(0xcccccc);
                       }
-
-                      if (Array.isArray(mesh.material)) {
-                        mesh.material[idx] = clonedMat;
-                      } else {
-                        mesh.material = clonedMat;
+                      // Match shoes
+                      else if (nodeName === "Shoe" || nodeName.includes("Shoe")) {
+                        if ('color' in clonedMat) clonedMat.color.setHex(0x222222);
                       }
+                      // Match soles
+                      else if (nodeName === "Sole" || nodeName.includes("Sole")) {
+                        if ('color' in clonedMat) clonedMat.color.setHex(0xcccccc);
+                      }
+                      
+                      return clonedMat;
                     }
+                    return mat;
                   });
+
+                  mesh.material = Array.isArray(mesh.material)
+                    ? newMaterials
+                    : newMaterials[0];
                 }
               }
             });
+
+            await renderer.compileAsync(character, camera, scene);
             resolve(gltf);
             setCharTimeline(character, camera);
             setAllTimeline();
