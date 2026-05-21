@@ -36,29 +36,6 @@ const setCharacter = (
                 child.castShadow = true;
                 child.receiveShadow = true;
                 mesh.frustumCulled = true;
-
-                // Programmatically deform hair geometry to make it wavy
-                if (mesh.name === "hair" && mesh.geometry) {
-                  const geometry = mesh.geometry;
-                  const positionAttr = geometry.attributes.position;
-                  if (positionAttr) {
-                    for (let i = 0; i < positionAttr.count; i++) {
-                      const x = positionAttr.getX(i);
-                      const y = positionAttr.getY(i);
-                      const z = positionAttr.getZ(i);
-
-                      const factor = (y + 0.14) / 0.26; // Pin at base, wave at top/sides
-                      const dx = Math.sin(y * 45) * 0.018 * factor;
-                      const dz = Math.cos(y * 45) * 0.018 * factor;
-
-                      positionAttr.setX(i, x + dx);
-                      positionAttr.setZ(i, z + dz);
-                    }
-                    positionAttr.needsUpdate = true;
-                    geometry.computeVertexNormals();
-                  }
-                }
-
                 if (mesh.material) {
                   const materials = Array.isArray(mesh.material)
                     ? mesh.material
