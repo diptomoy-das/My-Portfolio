@@ -47,12 +47,12 @@ const setCharacter = (
                       const y = positionAttr.getY(i);
                       const z = positionAttr.getZ(i);
 
-                      // 1. Curl deformation (slightly tighter and more pronounced curls)
+                      // 1. Curl deformation
                       const factor = (y + 0.14) / 0.26; // Pin at base, wave/curl at top/sides
-                      const phase1 = (x * 40) + (y * 95) + (z * 40);
-                      const phase2 = (x * 70) - (y * 150) + (z * 70);
-                      const dx = (Math.sin(phase1) + 0.3 * Math.sin(phase2)) * 0.006 * factor;
-                      const dz = (Math.cos(phase1) + 0.3 * Math.cos(phase2)) * 0.006 * factor;
+                      const phase1 = (x * 35) + (y * 80) + (z * 35);
+                      const phase2 = (x * 60) - (y * 130) + (z * 60);
+                      const dx = (Math.sin(phase1) + 0.3 * Math.sin(phase2)) * 0.0045 * factor;
+                      const dz = (Math.cos(phase1) + 0.3 * Math.cos(phase2)) * 0.0045 * factor;
 
                       let newX = x + dx;
                       let newZ = z + dz;
