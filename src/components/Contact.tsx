@@ -1,4 +1,5 @@
-import { MdArrowOutward, MdCopyright } from "react-icons/md";
+import { MdArrowOutward } from "react-icons/md";
+import { FaGithub, FaLinkedin, FaInstagram, FaXTwitter } from "react-icons/fa6";
 import "./styles/Contact.css";
 
 const Contact = () => {
@@ -29,7 +30,7 @@ const Contact = () => {
               data-cursor="disable"
               className="contact-social"
             >
-              Github <MdArrowOutward />
+              <FaGithub /> <span>Github</span> <MdArrowOutward />
             </a>
             <a
               href="https://www.linkedin.com/in/diptomoy-das-0776b5312/"
@@ -37,7 +38,7 @@ const Contact = () => {
               data-cursor="disable"
               className="contact-social"
             >
-              Linkedin <MdArrowOutward />
+              <FaLinkedin /> <span>Linkedin</span> <MdArrowOutward />
             </a>
             <a
               href="https://x.com/Diptomoy20"
@@ -45,7 +46,7 @@ const Contact = () => {
               data-cursor="disable"
               className="contact-social"
             >
-              Twitter <MdArrowOutward />
+              <FaXTwitter /> <span>Twitter</span> <MdArrowOutward />
             </a>
             <a
               href="https://www.instagram.com/diptomoy_/?hl=en"
@@ -53,16 +54,14 @@ const Contact = () => {
               data-cursor="disable"
               className="contact-social"
             >
-              Instagram <MdArrowOutward />
+              <FaInstagram /> <span>Instagram</span> <MdArrowOutward />
             </a>
           </div>
           <div className="contact-box">
             <h2>
               Designed and Developed <br /> by <span>Diptomoy Das</span>
             </h2>
-            <h5>
-              <MdCopyright /> 2024
-            </h5>
+
           </div>
         </div>
       </div>

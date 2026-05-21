@@ -58,7 +58,21 @@ const projects = [
     category: "ML / Data Science",
     tools: "Sentinel-2, Random Forest",
     description: "Uses Sentinel-2 satellite imagery & Random Forest classifier to automate mangrove ecosystem identification.",
-    image: "/images/placeholder.webp"
+    image: "/images/carboncredit.png",
+    liveLink: "https://drive.google.com/file/d/1bjQeE0-jlzWTG2i-pFDmM5E-aaUP_2ii/view?usp=sharing",
+    liveLinkLabel: "Project Report"
+  },
+  {
+    name: "Aegis",
+    category: "AI & Blockchain",
+    tools: "Multi-agent AI pipelines, computer vision, Docker orchestration, and Redis message queues drive automated verification and blockchain fund distribution",
+    description: "Detect, verify, fund.",
+    image: "/images/aegis.png",
+    liveLink: "https://aegis-front.vercel.app/",
+    githubLinks: [
+      { label: "Dashboard GitHub", url: "https://github.com/debojyoti10CC/aegis-dashboard" },
+      { label: "Frontend GitHub", url: "https://github.com/debojyoti10CC/Aegis-front.git" }
+    ]
   }
 ];
 
@@ -123,11 +137,11 @@ const Work = () => {
                 <h4>Tools and features</h4>
                 <p>{project.tools}</p>
                 
-                {(project.liveLink || project.githubLink) && (
-                  <div className="work-project-links" style={{ display: 'flex', gap: '20px', marginTop: '30px' }}>
+                {(project.liveLink || project.githubLink || ('githubLinks' in project && project.githubLinks)) && (
+                  <div className="work-project-links" style={{ display: 'flex', gap: '20px', marginTop: '30px', flexWrap: 'wrap' }}>
                     {project.liveLink && (
                       <a href={project.liveLink} target="_blank" rel="noreferrer" data-cursor="disable" style={{ color: 'var(--accentColor)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '15px', fontWeight: 500 }}>
-                        Live Demo <MdArrowOutward />
+                        {project.liveLinkLabel || "Live Demo"} <MdArrowOutward />
                       </a>
                     )}
                     {project.githubLink && (
@@ -135,10 +149,15 @@ const Work = () => {
                         <FaGithub /> GitHub
                       </a>
                     )}
+                    {'githubLinks' in project && project.githubLinks && (project.githubLinks as any[]).map((link: any, idx: number) => (
+                      <a key={idx} href={link.url} target="_blank" rel="noreferrer" data-cursor="disable" style={{ color: '#fff', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '15px', fontWeight: 500 }}>
+                        <FaGithub /> {link.label}
+                      </a>
+                    ))}
                   </div>
                 )}
               </div>
-              <WorkImage image={project.image} alt={project.name} link={project.liveLink || project.githubLink} />
+              <WorkImage image={project.image} alt={project.name} link={project.liveLink || project.githubLink || ('githubLinks' in project && project.githubLinks ? (project.githubLinks as any[])[0]?.url : '')} />
             </div>
           ))}
         </div>

@@ -28,6 +28,13 @@
 }
 a.contact-social {
   font-size: 25px;
+  border-bottom: none;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+a.contact-social span {
   border-bottom: 1px solid #ccc;
 }
 .contact-box h2 {
