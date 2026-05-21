@@ -3,8 +3,64 @@ import WorkImage from "./WorkImage";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { MdArrowOutward } from "react-icons/md";
+import { FaGithub } from "react-icons/fa6";
 
 gsap.registerPlugin(useGSAP);
+
+const projects = [
+  {
+    name: "MindPal",
+    category: "VR Application",
+    tools: "Next.js, React, Three.js, VR",
+    description: "VR solution supporting social & cognitive development of autistic children through immersive inclusive technology.",
+    image: "/images/mindpal.png",
+    liveLink: "https://mindpal222.vercel.app/",
+    githubLink: "https://github.com/debojyoti10CC/mindpal222"
+  },
+  {
+    name: "Xencruit",
+    category: "AI Web App",
+    tools: "MediaPipe, YOLOv8, OpenCV",
+    description: "AI-powered interview confidence meter analyzing facial expressions, posture & blink rate.",
+    image: "/images/xencruit.png",
+    liveLink: "https://xencruit.vercel.app/",
+    githubLink: "https://github.com/debojyoti10CC/Xencruit"
+  },
+  {
+    name: "Axylos",
+    category: "Decentralized AI",
+    tools: "Web3, HTTP 402, AI Agents",
+    description: "Decentralized prototype for autonomous AI agent economy with P2P service discovery, negotiation & HTTP 402 micropayments.",
+    image: "/images/axylos.png",
+    liveLink: "https://axylos-new-24rq-7osr4dsmb-diptomoys-projects.vercel.app/",
+    githubLink: "https://github.com/debojyoti10CC/axylosfirstdraft"
+  },
+  {
+    name: "HealthChain",
+    category: "Blockchain Medical",
+    tools: "Celo blockchain, Web3",
+    description: "Decentralized medical record management on Celo blockchain — patients securely store & share records via a single verifiable transaction.",
+    image: "/images/healthchain.png",
+    liveLink: "https://health-chain-final.vercel.app/",
+    githubLink: "https://github.com/diptomoy-das/HealthChain-final"
+  },
+  {
+    name: "BondFi",
+    category: "DeFi App",
+    tools: "Stellar, USDC, Soroban",
+    description: "Decentralized app on Stellar for fractional ownership of government bonds using USDC & Soroban smart contracts.",
+    image: "/images/bondfi.png",
+    githubLink: "https://github.com/diptomoy-das/BondFi"
+  },
+  {
+    name: "Carbon Credit",
+    category: "ML / Data Science",
+    tools: "Sentinel-2, Random Forest",
+    description: "Uses Sentinel-2 satellite imagery & Random Forest classifier to automate mangrove ecosystem identification.",
+    image: "/images/placeholder.webp"
+  }
+];
 
 const Work = () => {
   useGSAP(() => {
@@ -53,21 +109,36 @@ const Work = () => {
           My <span>Work</span>
         </h2>
         <div className="work-flex">
-          {[...Array(6)].map((_value, index) => (
+          {projects.map((project, index) => (
             <div className="work-box" key={index}>
               <div className="work-info">
                 <div className="work-title">
                   <h3>0{index + 1}</h3>
 
                   <div>
-                    <h4>Project Name</h4>
-                    <p>Category</p>
+                    <h4>{project.name}</h4>
+                    <p>{project.category}</p>
                   </div>
                 </div>
                 <h4>Tools and features</h4>
-                <p>Javascript, TypeScript, React, Threejs</p>
+                <p>{project.tools}</p>
+                
+                {(project.liveLink || project.githubLink) && (
+                  <div className="work-project-links" style={{ display: 'flex', gap: '20px', marginTop: '30px' }}>
+                    {project.liveLink && (
+                      <a href={project.liveLink} target="_blank" rel="noreferrer" data-cursor="disable" style={{ color: 'var(--accentColor)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '15px', fontWeight: 500 }}>
+                        Live Demo <MdArrowOutward />
+                      </a>
+                    )}
+                    {project.githubLink && (
+                      <a href={project.githubLink} target="_blank" rel="noreferrer" data-cursor="disable" style={{ color: '#fff', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '15px', fontWeight: 500 }}>
+                        <FaGithub /> GitHub
+                      </a>
+                    )}
+                  </div>
+                )}
               </div>
-              <WorkImage image="/images/placeholder.webp" alt="" />
+              <WorkImage image={project.image} alt={project.name} link={project.liveLink || project.githubLink} />
             </div>
           ))}
         </div>

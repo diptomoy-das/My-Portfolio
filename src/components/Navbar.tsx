@@ -23,7 +23,7 @@ const Navbar = () => {
     smoother.scrollTop(0);
     smoother.paused(true);
 
-    let links = document.querySelectorAll(".header ul a");
+    let links = document.querySelectorAll(".header ul a, .navbar-name");
     links.forEach((elem) => {
       let element = elem as HTMLAnchorElement;
       element.addEventListener("click", (e) => {
@@ -42,15 +42,25 @@ const Navbar = () => {
   return (
     <>
       <div className="header">
-        <a href="/#" className="navbar-title" data-cursor="disable">
-          Logo
-        </a>
+        <div className="navbar-brand">
+          <a href="/#" className="navbar-title" data-cursor="disable">
+            <img src="/images/logo.jpg" alt="Logo" className="navbar-logo-img" />
+          </a>
+          <a
+            href="#about"
+            data-href="#about"
+            className="navbar-name"
+            data-cursor="disable"
+          >
+            Diptomoy Das
+          </a>
+        </div>
         <a
-          href="mailto:example@mail.com"
+          href="mailto:diptomoydas20@gmail.com"
           className="navbar-connect"
           data-cursor="disable"
         >
-          example@mail.com
+          diptomoydas20@gmail.com
         </a>
         <ul>
           <li>

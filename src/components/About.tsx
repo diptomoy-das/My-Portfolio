@@ -6,9 +6,10 @@ const About = () => {
       <div className="about-me">
         <h3 className="title">About Me</h3>
         <p className="para">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic quis
-          dolores numquam iusto Ratione earum ducimus autem id iure pariatur
-          dolorum quae maiores.
+          Second-year B.Tech CSE student at IEM Kolkata. Passionate about
+          Blockchain, AI/ML, VR & Decentralized Systems. Builder of 6 production
+          projects, national hackathon winner (1st PHYCATHON 2024, 5th Central
+          India Hackathon 2025), and ETH Mumbai 2026 Finalist.
         </p>
       </div>
     </div>

@@ -90,21 +90,22 @@ const WhatIDo = () => {
               <h3>DEVELOP</h3>
               <h4>Description</h4>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
-                quia aliquid laboriosam ducimus sit molestiae.
+                I build decentralized systems, AI-powered web applications, and
+                immersive VR experiences. I have successfully built 6 production
+                projects and won multiple national hackathons.
               </p>
               <h5>Skillset & tools</h5>
               <div className="what-content-flex">
+                <div className="what-tags">C++ / C</div>
+                <div className="what-tags">Java</div>
+                <div className="what-tags">Python</div>
+                <div className="what-tags">HTML / CSS</div>
                 <div className="what-tags">JavaScript</div>
-                <div className="what-tags">TypeScript</div>
-                <div className="what-tags">Three.js</div>
                 <div className="what-tags">React</div>
-                <div className="what-tags">Css</div>
-                <div className="what-tags">Node.js</div>
-                <div className="what-tags">Next.js</div>
-                <div className="what-tags">Express.js</div>
-                <div className="what-tags">PHP</div>
-                <div className="what-tags">MySql</div>
+                <div className="what-tags">Solidity</div>
+                <div className="what-tags">Rust</div>
+                <div className="what-tags">Blockchain</div>
+                <div className="what-tags">Arduino</div>
               </div>
               <div className="what-arrow"></div>
             </div>
@@ -128,22 +129,20 @@ const WhatIDo = () => {
             </div>
             <div className="what-corner"></div>
             <div className="what-content-in">
-              <h3>DESIGN</h3>
+              <h3>DSA</h3>
               <h4>Description</h4>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
-                quia aliquid laboriosam ducimus sit molestiae
+                Strong foundation in Data Structures and Algorithms. Experienced in solving complex logical problems, optimizing code complexity, and writing efficient algorithms to power scalable applications.
               </p>
               <h5>Skillset & tools</h5>
               <div className="what-content-flex">
-                <div className="what-tags">Blender</div>
-                <div className="what-tags">Zbrush</div>
-                <div className="what-tags">UI Design</div>
-                <div className="what-tags">Motion</div>
-                <div className="what-tags">Rigging</div>
-                <div className="what-tags">3D Animation</div>
-                <div className="what-tags">Character Design</div>
-                <div className="what-tags">Modelling</div>
+                <div className="what-tags">C++</div>
+                <div className="what-tags">C</div>
+                <div className="what-tags">Java</div>
+                <div className="what-tags">Python</div>
+                <div className="what-tags">Algorithms</div>
+                <div className="what-tags">Data Structures</div>
+                <div className="what-tags">Optimization</div>
               </div>
               <div className="what-arrow"></div>
             </div>
