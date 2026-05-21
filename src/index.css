@@ -119,5 +119,11 @@ body {
 @media screen and (max-width: 900px) {
   .techstack h2 {
     font-size: 40px;
+    top: 60px;
   }
+}
+
+.tech-canvas,
+.techstack canvas {
+  touch-action: pan-y !important;
 }

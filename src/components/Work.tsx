@@ -138,19 +138,19 @@ const Work = () => {
                 <p>{project.tools}</p>
                 
                 {(project.liveLink || project.githubLink || ('githubLinks' in project && project.githubLinks)) && (
-                  <div className="work-project-links" style={{ display: 'flex', gap: '20px', marginTop: '30px', flexWrap: 'wrap' }}>
+                  <div className="work-project-links">
                     {project.liveLink && (
-                      <a href={project.liveLink} target="_blank" rel="noreferrer" data-cursor="disable" style={{ color: 'var(--accentColor)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '15px', fontWeight: 500 }}>
+                      <a href={project.liveLink} className="live-link" target="_blank" rel="noreferrer" data-cursor="disable">
                         {project.liveLinkLabel || "Live Demo"} <MdArrowOutward />
                       </a>
                     )}
                     {project.githubLink && (
-                      <a href={project.githubLink} target="_blank" rel="noreferrer" data-cursor="disable" style={{ color: '#fff', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '15px', fontWeight: 500 }}>
+                      <a href={project.githubLink} className="github-link" target="_blank" rel="noreferrer" data-cursor="disable">
                         <FaGithub /> GitHub
                       </a>
                     )}
                     {'githubLinks' in project && project.githubLinks && (project.githubLinks as any[]).map((link: any, idx: number) => (
-                      <a key={idx} href={link.url} target="_blank" rel="noreferrer" data-cursor="disable" style={{ color: '#fff', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '15px', fontWeight: 500 }}>
+                      <a key={idx} href={link.url} className="github-link" target="_blank" rel="noreferrer" data-cursor="disable">
                         <FaGithub /> {link.label}
                       </a>
                     ))}

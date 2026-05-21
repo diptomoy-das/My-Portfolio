@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { useRef, useMemo, useState, useEffect } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 import { EffectComposer, N8AO } from "@react-three/postprocessing";
 import {
@@ -124,6 +124,26 @@ function Pointer({ vec = new THREE.Vector3(), isActive }: PointerProps) {
   );
 }
 
+function ResponsiveCamera() {
+  const { camera, size } = useThree();
+
+  useEffect(() => {
+    const width = size.width;
+    if (width < 480) {
+      camera.position.z = 38;
+    } else if (width < 768) {
+      camera.position.z = 30;
+    } else if (width < 1024) {
+      camera.position.z = 24;
+    } else {
+      camera.position.z = 20;
+    }
+    camera.updateProjectionMatrix();
+  }, [size.width, camera]);
+
+  return null;
+}
+
 const TechStack = () => {
   const [isActive, setIsActive] = useState(false);
 
@@ -176,7 +196,9 @@ const TechStack = () => {
         camera={{ position: [0, 0, 20], fov: 32.5, near: 1, far: 100 }}
         onCreated={(state) => (state.gl.toneMappingExposure = 1.5)}
         className="tech-canvas"
+        style={{ touchAction: "pan-y" }}
       >
+        <ResponsiveCamera />
         <ambientLight intensity={1} />
         <spotLight
           position={[20, 20, 25]}

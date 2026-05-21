@@ -200,12 +200,33 @@
     gap: 20px;
   }
 } */
+.work-project-links {
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.work-project-links a {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.work-project-links .live-link {
+  color: var(--accentColor);
+}
+
+.work-project-links .github-link {
+  color: #fff;
+}
+
 @media only screen and (max-width: 1025px) {
   .work-container {
     align-content: normal;
-  }
-  .work-flex {
-    height: auto;
   }
 }
 
@@ -214,14 +235,22 @@
     width: calc(100vw - 60px);
     max-width: 450px;
     padding: 24px;
-    gap: 30px;
+    gap: 20px;
+    justify-content: space-between;
   }
   .work-flex {
     margin-left: 0;
     padding-right: 20px;
   }
   .work-image img {
-    max-height: 220px;
+    max-height: 25svh;
+  }
+  .work-project-links {
+    margin-top: 15px;
+    gap: 12px;
+  }
+  .work-project-links a {
+    font-size: 13px;
   }
 }
 
@@ -229,19 +258,35 @@
   .work-box {
     width: calc(100vw - 40px);
     padding: 16px;
-    gap: 16px;
+    gap: 12px;
+    justify-content: space-between;
   }
   .work-image img {
-    max-height: 180px;
+    max-height: 22svh;
   }
   .work-section h2 {
-    font-size: 36px;
-    margin-top: 40px;
-    margin-bottom: 10px;
+    font-size: 32px;
+    margin-top: 30px;
+    margin-bottom: 5px;
   }
   .work-title h3 {
-    font-size: 28px;
-    line-height: 28px;
+    font-size: 24px;
+    line-height: 24px;
+  }
+}
+
+@media only screen and (max-height: 700px) {
+  .work-image img {
+    max-height: 18svh;
+  }
+  .work-box {
+    padding: 16px;
+    gap: 10px;
+  }
+  .work-section h2 {
+    font-size: 32px;
+    margin-top: 25px;
+    margin-bottom: 5px;
   }
 }
 
