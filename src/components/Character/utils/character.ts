@@ -137,7 +137,7 @@ const setCharacter = (
             if (headBone) {
               const spectacles = createSpectacles();
               // Local position relative to spine006
-              spectacles.position.set(-2.763e-7, 1.20917, 0.89605);
+              spectacles.position.set(-2.763e-7, 1.20917, 1.18);
               // Local rotation relative to spine006
               spectacles.rotation.set(-0.097296, 0, 0);
               headBone.add(spectacles);
