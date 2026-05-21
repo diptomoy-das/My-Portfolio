@@ -78,7 +78,7 @@
     flex-direction: row;
     align-items: center;
     font-size: 14px;
-    column-gap: 20px;
+    column-gap: 15px;
   }
   .header ul li {
     color: #eae5ec;
@@ -89,12 +89,12 @@
 }
 @media only screen and (min-width: 768px) {
   .header ul {
-    column-gap: 30px;
+    column-gap: 22px;
   }
 }
 @media only screen and (min-width: 1024px) {
   .header ul {
-    column-gap: 40px;
+    column-gap: 30px;
   }
 }
 @media only screen and (min-width: 1150px) {
@@ -107,7 +107,7 @@
     padding: 35px 0px;
   }
   .header ul {
-    column-gap: 45px;
+    column-gap: 35px;
     font-size: 16px;
   }
   .navbar-connect {
@@ -119,6 +119,6 @@
 }
 @media only screen and (min-width: 1400px) {
   .header ul {
-    column-gap: 80px;
+    column-gap: 55px;
   }
 }
