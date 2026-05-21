@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { DRACOLoader, GLTF, GLTFLoader } from "three-stdlib";
 import { setCharTimeline, setAllTimeline } from "../../utils/GsapScroll";
 import { decryptFile } from "./decrypt";
+import { createSpectacles } from "./spectacles";
 
 const setCharacter = (
   renderer: THREE.WebGLRenderer,
@@ -130,6 +131,17 @@ const setCharacter = (
                 }
               }
             });
+
+            // Attach spectacles to head bone
+            const headBone = character.getObjectByName("spine006");
+            if (headBone) {
+              const spectacles = createSpectacles();
+              // Local position relative to spine006
+              spectacles.position.set(-2.763e-7, 1.20917, 0.89605);
+              // Local rotation relative to spine006
+              spectacles.rotation.set(-0.097296, 0, 0);
+              headBone.add(spectacles);
+            }
 
             await renderer.compileAsync(character, camera, scene);
             resolve(gltf);
