@@ -6,7 +6,7 @@ import { useGSAP } from "@gsap/react";
 import { MdArrowOutward } from "react-icons/md";
 import { FaGithub } from "react-icons/fa6";
 
-gsap.registerPlugin(useGSAP);
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 const projects = [
   {
@@ -78,39 +78,42 @@ const projects = [
 
 const Work = () => {
   useGSAP(() => {
-    const getTranslateX = () => {
-      const box = document.getElementsByClassName("work-box");
-      if (!box.length) return 0;
-      const workContainer = document.querySelector(".work-container");
-      if (!workContainer) return 0;
-      const rectLeft = workContainer.getBoundingClientRect().left;
-      const rect = box[0].getBoundingClientRect();
-      const parentWidth = box[0].parentElement!.getBoundingClientRect().width;
-      const padding = parseInt(window.getComputedStyle(box[0]).padding) / 2;
-      return rect.width * box.length - (rectLeft + parentWidth) + padding;
-    };
+    const mm = gsap.matchMedia();
 
-    let timeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: ".work-section",
-        start: "top top",
-        end: () => `+=${getTranslateX()}`, // Use actual scroll width dynamically
-        scrub: true,
-        pin: true,
-        invalidateOnRefresh: true,
-        id: "work",
-      },
+    mm.add("(min-width: 768px)", () => {
+      const getTranslateX = () => {
+        const box = document.getElementsByClassName("work-box");
+        if (!box.length) return 0;
+        const workContainer = document.querySelector(".work-container");
+        if (!workContainer) return 0;
+        const rectLeft = workContainer.getBoundingClientRect().left;
+        const rect = box[0].getBoundingClientRect();
+        const parentWidth = box[0].parentElement!.getBoundingClientRect().width;
+        const padding = parseInt(window.getComputedStyle(box[0]).padding) / 2;
+        return rect.width * box.length - (rectLeft + parentWidth) + padding;
+      };
+
+      let timeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".work-section",
+          start: "top top",
+          end: () => `+=${getTranslateX()}`, // Use actual scroll width dynamically
+          scrub: true,
+          pin: true,
+          invalidateOnRefresh: true,
+          id: "work",
+        },
+      });
+
+      timeline.to(".work-flex", {
+        x: () => -getTranslateX(),
+        ease: "none",
+      });
     });
 
-    timeline.to(".work-flex", {
-      x: () => -getTranslateX(),
-      ease: "none",
-    });
-
-    // Clean up (optional, good practice)
+    // Clean up
     return () => {
-      timeline.kill();
-      ScrollTrigger.getById("work")?.kill();
+      mm.revert();
     };
   }, []);
   return (
