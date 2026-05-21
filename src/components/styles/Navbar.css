@@ -78,6 +78,7 @@
     flex-direction: row;
     align-items: center;
     font-size: 14px;
+    column-gap: 20px;
   }
   .header ul li {
     color: #eae5ec;
@@ -86,7 +87,17 @@
     font-size: 16px;
   }
 }
-@media only screen and (min-width: 900px) {
+@media only screen and (min-width: 768px) {
+  .header ul {
+    column-gap: 30px;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .header ul {
+    column-gap: 40px;
+  }
+}
+@media only screen and (min-width: 1150px) {
   .navbar-connect {
     display: block;
   }
@@ -96,7 +107,7 @@
     padding: 35px 0px;
   }
   .header ul {
-    column-gap: 80px;
+    column-gap: 45px;
     font-size: 16px;
   }
   .navbar-connect {
@@ -104,5 +115,10 @@
   }
   .navbar-title {
     font-size: 18px;
+  }
+}
+@media only screen and (min-width: 1400px) {
+  .header ul {
+    column-gap: 80px;
   }
 }
