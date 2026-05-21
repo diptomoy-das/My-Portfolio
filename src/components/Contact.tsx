@@ -1,5 +1,6 @@
 import { MdArrowOutward } from "react-icons/md";
 import { FaGithub, FaLinkedin, FaInstagram, FaXTwitter } from "react-icons/fa6";
+import { SiLeetcode } from "react-icons/si";
 import "./styles/Contact.css";
 
 const Contact = () => {
@@ -39,6 +40,14 @@ const Contact = () => {
               className="contact-social"
             >
               <FaLinkedin /> <span>Linkedin</span> <MdArrowOutward />
+            </a>
+            <a
+              href="https://leetcode.com/u/Dipto_/"
+              target="_blank"
+              data-cursor="disable"
+              className="contact-social"
+            >
+              <SiLeetcode /> <span>LeetCode</span> <MdArrowOutward />
             </a>
             <a
               href="https://x.com/Diptomoy20"

@@ -4,6 +4,7 @@ import {
   FaLinkedinIn,
   FaXTwitter,
 } from "react-icons/fa6";
+import { SiLeetcode } from "react-icons/si";
 import "./styles/SocialIcons.css";
 import { TbNotes } from "react-icons/tb";
 import { useEffect } from "react";
@@ -67,6 +68,11 @@ const SocialIcons = () => {
         <span>
           <a href="https://www.linkedin.com/in/diptomoy-das-0776b5312/" target="_blank">
             <FaLinkedinIn />
+          </a>
+        </span>
+        <span>
+          <a href="https://leetcode.com/u/Dipto_/" target="_blank">
+            <SiLeetcode />
           </a>
         </span>
         <span>
