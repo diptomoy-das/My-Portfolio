@@ -48,57 +48,74 @@ const setCharacter = (
                       clonedMat.needsUpdate = true;
                       
                       const nodeName = child.name || "";
+                      const originalName = (child.userData && child.userData.name) || "";
                       const matName = mat.name || "";
 
-                      // Match hair and eyebrows (by name or material)
-                      if (
-                        nodeName === "hair" ||
-                        nodeName === "Eyebrow" ||
+                      const isHair = 
+                        nodeName.includes("hair") ||
+                        originalName.includes("hair") ||
+                        nodeName.includes("Eyebrow") ||
+                        originalName.includes("Eyebrow") ||
                         matName === "Material.030" ||
-                        matName === "Material.014"
-                      ) {
+                        matName === "Material.014";
+
+                      const isShirt =
+                        nodeName.includes("SHIRT") ||
+                        originalName.includes("SHIRT") ||
+                        nodeName.includes("BODY") ||
+                        originalName.includes("BODY") ||
+                        nodeName.includes("shirt") ||
+                        originalName.includes("shirt") ||
+                        nodeName.includes("body") ||
+                        originalName.includes("body");
+
+                      const isSkin = 
+                        nodeName.includes("Plane007") ||
+                        originalName.includes("Plane.007") ||
+                        nodeName.includes("Cube002") ||
+                        originalName.includes("Cube.002") ||
+                        nodeName.includes("Cube007") ||
+                        originalName.includes("Cube.007") ||
+                        nodeName.includes("Neck") ||
+                        originalName.includes("Neck") ||
+                        nodeName.includes("Hand") ||
+                        originalName.includes("Hand") ||
+                        nodeName.includes("Ear") ||
+                        originalName.includes("Ear");
+
+                      const isPants =
+                        nodeName.includes("Pant") ||
+                        originalName.includes("Pant") ||
+                        nodeName.includes("pant") ||
+                        originalName.includes("pant");
+
+                      const isShoes =
+                        nodeName.includes("Shoe") ||
+                        originalName.includes("Shoe") ||
+                        nodeName.includes("shoe") ||
+                        originalName.includes("shoe");
+
+                      const isSoles =
+                        nodeName.includes("Sole") ||
+                        originalName.includes("Sole") ||
+                        nodeName.includes("sole") ||
+                        originalName.includes("sole");
+
+                      if (isHair) {
                         if ('color' in clonedMat) clonedMat.color.setHex(0x0f0b11); // Dark hair
                         clonedMat.roughness = 0.85;
-                      }
-                      // Match jacket / hoodie / shirt
-                      else if (
-                        nodeName === "BODY.SHIRT" ||
-                        nodeName.includes("SHIRT") ||
-                        nodeName.includes("BODY") ||
-                        nodeName.includes("shirt") ||
-                        nodeName.includes("body")
-                      ) {
+                      } else if (isShirt) {
                         if ('color' in clonedMat) clonedMat.color.setHex(0xd00808); // Vibrant red jacket/dress
                         clonedMat.roughness = 0.65;
-                      }
-                      // Match skin parts (Face, Ears, Neck, Hands)
-                      else if (
-                        nodeName === "Cube.002" || // Face node
-                        nodeName === "Cube002" || // Face node normalized
-                        nodeName === "Cube.007" || // Face mesh
-                        nodeName === "Cube007" || // Face mesh normalized
-                        nodeName === "Neck" ||
-                        nodeName === "Hand" ||
-                        nodeName === "Ear.001" ||
-                        nodeName === "Ear001" ||
-                        nodeName.includes("Ear") ||
-                        nodeName.includes("Hand") ||
-                        nodeName.includes("Neck")
-                      ) {
+                      } else if (isSkin) {
                         if ('color' in clonedMat) clonedMat.color.setHex(0x9e5a3e); // Warm tan skin tone matching photo
                         clonedMat.roughness = 0.55;
-                      }
-                      // Match pants
-                      else if (nodeName === "Pant" || nodeName.includes("Pant")) {
+                      } else if (isPants) {
                         if ('color' in clonedMat) clonedMat.color.setHex(0x1a181c);
                         clonedMat.roughness = 0.7;
-                      }
-                      // Match shoes
-                      else if (nodeName === "Shoe" || nodeName.includes("Shoe")) {
+                      } else if (isShoes) {
                         if ('color' in clonedMat) clonedMat.color.setHex(0x222222);
-                      }
-                      // Match soles
-                      else if (nodeName === "Sole" || nodeName.includes("Sole")) {
+                      } else if (isSoles) {
                         if ('color' in clonedMat) clonedMat.color.setHex(0xcccccc);
                       }
                       
