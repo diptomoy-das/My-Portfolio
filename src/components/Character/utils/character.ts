@@ -85,7 +85,7 @@ const setCharacter = (
                         nodeName.includes("Hand") ||
                         nodeName.includes("Neck")
                       ) {
-                        if ('color' in clonedMat) clonedMat.color.setHex(0xa08870); // Warm tan skin tone
+                        if ('color' in clonedMat) clonedMat.color.setHex(0x9e5a3e); // Warm tan skin tone matching photo
                         clonedMat.roughness = 0.55;
                       }
                       // Match pants
