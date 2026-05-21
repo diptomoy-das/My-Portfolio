@@ -34,6 +34,54 @@ const setCharacter = (
                 child.castShadow = true;
                 child.receiveShadow = true;
                 mesh.frustumCulled = true;
+
+                if (mesh.material) {
+                  const materials = Array.isArray(mesh.material)
+                    ? mesh.material
+                    : [mesh.material];
+
+                  materials.forEach((mat, idx) => {
+                    if (mat instanceof THREE.MeshStandardMaterial) {
+                      const clonedMat = mat.clone();
+                      const nodeName = child.name;
+
+                      if (nodeName === "hair" || nodeName === "Eyebrow") {
+                        // Dark hair and eyebrows
+                        clonedMat.color.setHex(0x0f0b11);
+                        clonedMat.roughness = 0.85;
+                      } else if (nodeName === "BODY.SHIRT") {
+                        // Red jacket / hoodie
+                        clonedMat.color.setHex(0xb30915);
+                        clonedMat.roughness = 0.65;
+                      } else if (
+                        nodeName === "Cube.002" || // Face mesh
+                        nodeName === "Neck" ||
+                        nodeName === "Hand" ||
+                        nodeName === "Ear.001"
+                      ) {
+                        // Skin tone matching the user's photo
+                        clonedMat.color.setHex(0xd6a280);
+                        clonedMat.roughness = 0.55;
+                      } else if (nodeName === "Pant") {
+                        // Dark pants
+                        clonedMat.color.setHex(0x1a181c);
+                        clonedMat.roughness = 0.7;
+                      } else if (nodeName === "Shoe") {
+                        // Dark shoes
+                        clonedMat.color.setHex(0x222222);
+                      } else if (nodeName === "Sole") {
+                        // Contrast soles
+                        clonedMat.color.setHex(0xcccccc);
+                      }
+
+                      if (Array.isArray(mesh.material)) {
+                        mesh.material[idx] = clonedMat;
+                      } else {
+                        mesh.material = clonedMat;
+                      }
+                    }
+                  });
+                }
               }
             });
             resolve(gltf);
