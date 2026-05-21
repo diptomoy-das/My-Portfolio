@@ -37,6 +37,18 @@ const projects = [
     githubLink: "https://github.com/debojyoti10CC/axylosfirstdraft"
   },
   {
+    name: "Aegis",
+    category: "AI & Blockchain",
+    tools: "Multi-agent AI pipelines, computer vision, Docker orchestration, and Redis message queues drive automated verification and blockchain fund distribution",
+    description: "Detect, verify, fund.",
+    image: "/images/aegis.png",
+    liveLink: "https://aegis-front.vercel.app/",
+    githubLinks: [
+      { label: "Dashboard GitHub", url: "https://github.com/debojyoti10CC/aegis-dashboard" },
+      { label: "Frontend GitHub", url: "https://github.com/debojyoti10CC/Aegis-front.git" }
+    ]
+  },
+  {
     name: "HealthChain",
     category: "Blockchain Medical",
     tools: "Celo blockchain, Web3",
@@ -61,18 +73,6 @@ const projects = [
     image: "/images/carboncredit.png",
     liveLink: "https://drive.google.com/file/d/1bjQeE0-jlzWTG2i-pFDmM5E-aaUP_2ii/view?usp=sharing",
     liveLinkLabel: "Project Report"
-  },
-  {
-    name: "Aegis",
-    category: "AI & Blockchain",
-    tools: "Multi-agent AI pipelines, computer vision, Docker orchestration, and Redis message queues drive automated verification and blockchain fund distribution",
-    description: "Detect, verify, fund.",
-    image: "/images/aegis.png",
-    liveLink: "https://aegis-front.vercel.app/",
-    githubLinks: [
-      { label: "Dashboard GitHub", url: "https://github.com/debojyoti10CC/aegis-dashboard" },
-      { label: "Frontend GitHub", url: "https://github.com/debojyoti10CC/Aegis-front.git" }
-    ]
   }
 ];
 
