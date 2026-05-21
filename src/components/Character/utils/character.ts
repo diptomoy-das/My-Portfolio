@@ -37,7 +37,7 @@ const setCharacter = (
                 child.receiveShadow = true;
                 mesh.frustumCulled = true;
 
-                // Programmatically deform hair geometry to make it curly
+                // Programmatically deform hair geometry to make it curly and fade the sideburns
                 if (mesh.name === "hair" && mesh.geometry) {
                   const geometry = mesh.geometry;
                   const positionAttr = geometry.attributes.position;
@@ -47,14 +47,27 @@ const setCharacter = (
                       const y = positionAttr.getY(i);
                       const z = positionAttr.getZ(i);
 
+                      // 1. Curl deformation
                       const factor = (y + 0.14) / 0.26; // Pin at base, wave/curl at top/sides
                       const phase1 = (x * 35) + (y * 80) + (z * 35);
                       const phase2 = (x * 60) - (y * 130) + (z * 60);
                       const dx = (Math.sin(phase1) + 0.3 * Math.sin(phase2)) * 0.0045 * factor;
                       const dz = (Math.cos(phase1) + 0.3 * Math.cos(phase2)) * 0.0045 * factor;
 
-                      positionAttr.setX(i, x + dx);
-                      positionAttr.setZ(i, z + dz);
+                      let newX = x + dx;
+                      let newZ = z + dz;
+
+                      // 2. Sideburns fade (thinning and pulling back in the lower-sides region)
+                      const sideFactor = Math.max(0, Math.min(1, (Math.abs(newX) - 0.03) / 0.05));
+                      if (y < 0) {
+                        const t = Math.max(0, Math.min(1, -y / 0.14));
+                        const reduction = 0.3 * t * sideFactor; // Up to 30% reduction on the far sides
+                        newX = newX * (1.0 - reduction);
+                        newZ = newZ - 0.015 * t * sideFactor; // Recess back slightly
+                      }
+
+                      positionAttr.setX(i, newX);
+                      positionAttr.setZ(i, newZ);
                     }
                     positionAttr.needsUpdate = true;
                     geometry.computeVertexNormals();
