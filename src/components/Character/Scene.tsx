@@ -28,12 +28,19 @@ const Scene = () => {
 
       const isMobile = window.innerWidth <= 1024;
 
-      const renderer = new THREE.WebGLRenderer({
-        alpha: true,
-        antialias: !isMobile, // Disable antialiasing on mobile to improve rendering performance
-        powerPreference: "high-performance",
-        precision: isMobile ? "mediump" : "highp",
-      });
+      let renderer: THREE.WebGLRenderer;
+      try {
+        renderer = new THREE.WebGLRenderer({
+          alpha: true,
+          antialias: !isMobile, // Disable antialiasing on mobile to improve rendering performance
+          powerPreference: "high-performance",
+          precision: isMobile ? "mediump" : "highp",
+        });
+      } catch (e) {
+        console.warn("WebGL initialization failed, bypassing 3D character scene:", e);
+        setLoading(100);
+        return;
+      }
       renderer.setSize(container.width, container.height);
       // Cap device pixel ratio to 1.5 on mobile to avoid high fragment load on retina screens
       renderer.setPixelRatio(isMobile ? Math.min(window.devicePixelRatio, 1.5) : Math.min(window.devicePixelRatio, 2));
@@ -59,28 +66,35 @@ const Scene = () => {
 
       let onResize: (() => void) | null = null;
 
-      loadCharacter().then((gltf) => {
-        if (gltf) {
-          const animations = setAnimations(gltf);
-          hoverDivRef.current && animations.hover(gltf, hoverDivRef.current);
-          mixer = animations.mixer;
-          const loadedChar = gltf.scene;
-          scene.add(loadedChar);
-          headBone = loadedChar.getObjectByName("spine006") || null;
-          screenLight = loadedChar.getObjectByName("screenlight") || null;
-          progress.loaded().then(() => {
-            setTimeout(() => {
-              light.turnOnLights();
-              animations.startIntro();
-            }, 2500);
-          });
+      loadCharacter()
+        .then((gltf) => {
+          if (gltf) {
+            const animations = setAnimations(gltf);
+            hoverDivRef.current && animations.hover(gltf, hoverDivRef.current);
+            mixer = animations.mixer;
+            const loadedChar = gltf.scene;
+            scene.add(loadedChar);
+            headBone = loadedChar.getObjectByName("spine006") || null;
+            screenLight = loadedChar.getObjectByName("screenlight") || null;
+            progress.loaded().then(() => {
+              setTimeout(() => {
+                light.turnOnLights();
+                animations.startIntro();
+              }, 2500);
+            });
 
-          onResize = () => {
-            handleResize(renderer, camera, canvasDiv, loadedChar);
-          };
-          window.addEventListener("resize", onResize);
-        }
-      });
+            onResize = () => {
+              handleResize(renderer, camera, canvasDiv, loadedChar);
+            };
+            window.addEventListener("resize", onResize);
+          } else {
+            progress.loaded();
+          }
+        })
+        .catch((err) => {
+          console.error("Failed to load character:", err);
+          progress.loaded();
+        });
 
       let mouse = { x: 0, y: 0 };
       let interpolation = { x: 0.1, y: 0.2 };

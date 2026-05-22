@@ -10,18 +10,28 @@ export let smoother: ScrollSmoother;
 
 const Navbar = () => {
   useEffect(() => {
-    smoother = ScrollSmoother.create({
-      wrapper: "#smooth-wrapper",
-      content: "#smooth-content",
-      smooth: 1.7,
-      speed: 1.7,
-      effects: true,
-      autoResize: true,
-      ignoreMobileResize: true,
-    });
+    try {
+      smoother = ScrollSmoother.create({
+        wrapper: "#smooth-wrapper",
+        content: "#smooth-content",
+        smooth: 1.7,
+        speed: 1.7,
+        effects: true,
+        autoResize: true,
+        ignoreMobileResize: true,
+      });
+    } catch (e) {
+      console.warn("ScrollSmoother creation failed or not supported in this environment:", e);
+    }
 
-    smoother.scrollTop(0);
-    smoother.paused(true);
+    if (smoother) {
+      if (typeof smoother.scrollTop === "function") {
+        smoother.scrollTop(0);
+      }
+      if (typeof smoother.paused === "function") {
+        smoother.paused(true);
+      }
+    }
 
     const clickHandlers: { element: HTMLAnchorElement; handler: (e: MouseEvent) => void }[] = [];
     const links = document.querySelectorAll(".header ul a, .navbar-name");
@@ -32,7 +42,7 @@ const Navbar = () => {
         if (window.innerWidth > 1024) {
           e.preventDefault();
           const section = element.getAttribute("data-href");
-          if (section) {
+          if (section && smoother && typeof smoother.scrollTo === "function") {
             smoother.scrollTo(section, true, "top top");
           }
         }
@@ -42,7 +52,9 @@ const Navbar = () => {
     });
 
     const handleResize = () => {
-      ScrollSmoother.refresh(true);
+      if (smoother && typeof ScrollSmoother.refresh === "function") {
+        ScrollSmoother.refresh(true);
+      }
     };
     window.addEventListener("resize", handleResize);
 
