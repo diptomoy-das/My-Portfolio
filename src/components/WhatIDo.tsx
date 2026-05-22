@@ -7,23 +7,26 @@ const WhatIDo = () => {
   const setRef = (el: HTMLDivElement | null, index: number) => {
     containerRef.current[index] = el;
   };
+
   useEffect(() => {
     if (ScrollTrigger.isTouch) {
       containerRef.current.forEach((container) => {
         if (container) {
           container.classList.remove("what-noTouch");
-          container.addEventListener("click", () => handleClick(container));
         }
       });
     }
-    return () => {
-      containerRef.current.forEach((container) => {
-        if (container) {
-          container.removeEventListener("click", () => handleClick(container));
-        }
-      });
-    };
   }, []);
+
+  const handleItemClick = (index: number) => {
+    if (ScrollTrigger.isTouch) {
+      const container = containerRef.current[index];
+      if (container) {
+        handleClick(container);
+      }
+    }
+  };
+
   return (
     <div className="whatIDO">
       <div className="what-box">
@@ -61,6 +64,7 @@ const WhatIDo = () => {
           <div
             className="what-content what-noTouch"
             ref={(el) => setRef(el, 0)}
+            onClick={() => handleItemClick(0)}
           >
             <div className="what-border1">
               <svg height="100%">
@@ -113,6 +117,7 @@ const WhatIDo = () => {
           <div
             className="what-content what-noTouch"
             ref={(el) => setRef(el, 1)}
+            onClick={() => handleItemClick(1)}
           >
             <div className="what-border1">
               <svg height="100%">

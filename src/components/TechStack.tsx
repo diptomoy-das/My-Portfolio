@@ -11,7 +11,6 @@ import {
   RapierRigidBody,
 } from "@react-three/rapier";
 
-const textureLoader = new THREE.TextureLoader();
 const imageUrls = [
   "/images/react2.webp",
   "/images/next2.webp",
@@ -22,7 +21,17 @@ const imageUrls = [
   "/images/typescript.webp",
   "/images/javascript.webp",
 ];
-const textures = imageUrls.map((url) => textureLoader.load(url));
+
+const techItems = [
+  { name: "React", image: "/images/react2.webp" },
+  { name: "Next.js", image: "/images/next2.webp" },
+  { name: "Node.js", image: "/images/node2.webp" },
+  { name: "Express", image: "/images/express.webp" },
+  { name: "MongoDB", image: "/images/mongo.webp" },
+  { name: "MySQL", image: "/images/mysql.webp" },
+  { name: "TypeScript", image: "/images/typescript.webp" },
+  { name: "JavaScript", image: "/images/javascript.webp" },
+];
 
 const sphereGeometry = new THREE.SphereGeometry(1, 28, 28);
 
@@ -146,33 +155,62 @@ function ResponsiveCamera() {
 
 const TechStack = () => {
   const [isActive, setIsActive] = useState(false);
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth <= 1024 : false
+  );
 
   useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 1024);
+    };
+    window.addEventListener("resize", handleResize);
+
     const handleScroll = () => {
+      const workElem = document.getElementById("work");
+      if (!workElem) return;
       const scrollY = window.scrollY || document.documentElement.scrollTop;
-      const threshold = document
-        .getElementById("work")!
-        .getBoundingClientRect().top;
+      const threshold = workElem.getBoundingClientRect().top;
       setIsActive(scrollY > threshold);
     };
-    document.querySelectorAll(".header a").forEach((elem) => {
+
+    const clickIntervals: number[] = [];
+    const clickHandlers: { element: HTMLAnchorElement; handler: () => void }[] = [];
+
+    const headerLinks = document.querySelectorAll(".header a");
+    headerLinks.forEach((elem) => {
       const element = elem as HTMLAnchorElement;
-      element.addEventListener("click", () => {
-        const interval = setInterval(() => {
+      const handler = () => {
+        const interval = window.setInterval(() => {
           handleScroll();
         }, 10);
-        setTimeout(() => {
-          clearInterval(interval);
+        clickIntervals.push(interval);
+        window.setTimeout(() => {
+          window.clearInterval(interval);
         }, 1000);
-      });
+      };
+      element.addEventListener("click", handler);
+      clickHandlers.push({ element, handler });
     });
+
     window.addEventListener("scroll", handleScroll);
+
     return () => {
+      window.removeEventListener("resize", handleResize);
       window.removeEventListener("scroll", handleScroll);
+      clickHandlers.forEach(({ element, handler }) => {
+        element.removeEventListener("click", handler);
+      });
+      clickIntervals.forEach((interval) => window.clearInterval(interval));
     };
   }, []);
+
   const materials = useMemo(() => {
-    return textures.map(
+    if (isMobile) return [];
+    
+    // Only initialize textures and materials if we are rendering the 3D Canvas
+    const textureLoader = new THREE.TextureLoader();
+    const loadedTextures = imageUrls.map((url) => textureLoader.load(url));
+    return loadedTextures.map(
       (texture) =>
         new THREE.MeshPhysicalMaterial({
           map: texture,
@@ -184,51 +222,67 @@ const TechStack = () => {
           clearcoat: 0.1,
         })
     );
-  }, []);
+  }, [isMobile]);
 
   return (
     <div className="techstack">
       <h2> My Techstack</h2>
 
-      <Canvas
-        shadows
-        gl={{ alpha: true, stencil: false, depth: false, antialias: false }}
-        camera={{ position: [0, 0, 20], fov: 32.5, near: 1, far: 100 }}
-        onCreated={(state) => (state.gl.toneMappingExposure = 1.5)}
-        className="tech-canvas"
-        style={{ touchAction: "pan-y" }}
-      >
-        <ResponsiveCamera />
-        <ambientLight intensity={1} />
-        <spotLight
-          position={[20, 20, 25]}
-          penumbra={1}
-          angle={0.2}
-          color="white"
-          castShadow
-          shadow-mapSize={[512, 512]}
-        />
-        <directionalLight position={[0, 5, -4]} intensity={2} />
-        <Physics gravity={[0, 0, 0]}>
-          <Pointer isActive={isActive} />
-          {spheres.map((props, i) => (
-            <SphereGeo
-              key={i}
-              {...props}
-              material={materials[Math.floor(Math.random() * materials.length)]}
-              isActive={isActive}
-            />
-          ))}
-        </Physics>
-        <Environment
-          files="/models/char_enviorment.hdr"
-          environmentIntensity={0.5}
-          environmentRotation={[0, 4, 2]}
-        />
-        <EffectComposer enableNormalPass={false}>
-          <N8AO color="#0f002c" aoRadius={2} intensity={1.15} />
-        </EffectComposer>
-      </Canvas>
+      {isMobile ? (
+        <div className="techstack-mobile-container">
+          <div className="techstack-mobile-grid">
+            {techItems.map((tech, i) => (
+              <div className="tech-card" key={i} data-cursor="disable">
+                <div className="tech-card-glow" />
+                <div className="tech-card-content">
+                  <img src={tech.image} alt={tech.name} className="tech-icon" />
+                  <span className="tech-name">{tech.name}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <Canvas
+          shadows
+          gl={{ alpha: true, stencil: false, depth: false, antialias: false }}
+          camera={{ position: [0, 0, 20], fov: 32.5, near: 1, far: 100 }}
+          onCreated={(state) => (state.gl.toneMappingExposure = 1.5)}
+          className="tech-canvas"
+          style={{ touchAction: "pan-y" }}
+        >
+          <ResponsiveCamera />
+          <ambientLight intensity={1} />
+          <spotLight
+            position={[20, 20, 25]}
+            penumbra={1}
+            angle={0.2}
+            color="white"
+            castShadow
+            shadow-mapSize={[512, 512]}
+          />
+          <directionalLight position={[0, 5, -4]} intensity={2} />
+          <Physics gravity={[0, 0, 0]}>
+            <Pointer isActive={isActive} />
+            {spheres.map((props, i) => (
+              <SphereGeo
+                key={i}
+                {...props}
+                material={materials[Math.floor(Math.random() * materials.length)]}
+                isActive={isActive}
+              />
+            ))}
+          </Physics>
+          <Environment
+            files="/models/char_enviorment.hdr"
+            environmentIntensity={0.5}
+            environmentRotation={[0, 4, 2]}
+          />
+          <EffectComposer enableNormalPass={false}>
+            <N8AO color="#0f002c" aoRadius={2} intensity={1.15} />
+          </EffectComposer>
+        </Canvas>
+      )}
     </div>
   );
 };
