@@ -34,7 +34,7 @@ const Scene = () => {
           alpha: true,
           antialias: !isMobile, // Disable antialiasing on mobile to improve rendering performance
           powerPreference: "high-performance",
-          precision: isMobile ? "mediump" : "highp",
+          precision: "highp",
         });
       } catch (e) {
         console.warn("WebGL initialization failed, bypassing 3D character scene:", e);

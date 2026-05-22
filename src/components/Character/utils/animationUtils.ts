@@ -9,10 +9,14 @@ const setAnimations = (gltf: GLTF) => {
     const introClip = gltf.animations.find(
       (clip) => clip.name === "introAnimation"
     );
-    const introAction = mixer.clipAction(introClip!);
-    introAction.setLoop(THREE.LoopOnce, 1);
-    introAction.clampWhenFinished = true;
-    introAction.play();
+    if (introClip) {
+      const introAction = mixer.clipAction(introClip);
+      introAction.setLoop(THREE.LoopOnce, 1);
+      introAction.clampWhenFinished = true;
+      introAction.play();
+    } else {
+      console.warn("Animation 'introAnimation' not found in GLTF file.");
+    }
     const clipNames = ["key1", "key2", "key5", "key6"];
     clipNames.forEach((name) => {
       const clip = THREE.AnimationClip.findByName(gltf.animations, name);
@@ -21,7 +25,7 @@ const setAnimations = (gltf: GLTF) => {
         action!.play();
         action!.timeScale = 1.2;
       } else {
-        console.error(`Animation "${name}" not found`);
+        console.warn(`Animation "${name}" not found`);
       }
     });
     let typingAction: THREE.AnimationAction | null = null;
@@ -36,12 +40,20 @@ const setAnimations = (gltf: GLTF) => {
     const introClip = gltf.animations.find(
       (clip) => clip.name === "introAnimation"
     );
-    const introAction = mixer.clipAction(introClip!);
-    introAction.clampWhenFinished = true;
-    introAction.reset().play();
+    if (introClip) {
+      const introAction = mixer.clipAction(introClip);
+      introAction.clampWhenFinished = true;
+      introAction.reset().play();
+    } else {
+      console.warn("Animation 'introAnimation' not found for intro trigger.");
+    }
     setTimeout(() => {
       const blink = gltf.animations.find((clip) => clip.name === "Blink");
-      mixer.clipAction(blink!).play().fadeIn(0.5);
+      if (blink) {
+        mixer.clipAction(blink).play().fadeIn(0.5);
+      } else {
+        console.warn("Animation 'Blink' not found for blink trigger.");
+      }
     }, 2500);
   }
   function hover(gltf: GLTF, hoverDiv: HTMLDivElement) {
