@@ -17,15 +17,28 @@ const setCharacter = (
   const loadCharacter = () => {
     return new Promise<GLTF | null>(async (resolve, reject) => {
       try {
-        const encryptedBlob = await decryptFile(
-          "/models/character.enc",
-          "Character3D#@"
-        );
-        const blobUrl = URL.createObjectURL(new Blob([encryptedBlob]));
+        const isSecure = typeof window !== "undefined" && window.crypto && window.crypto.subtle;
+        let modelUrl: string;
+
+        if (isSecure) {
+          try {
+            const encryptedBlob = await decryptFile(
+              "/models/character.enc",
+              "Character3D#@"
+            );
+            modelUrl = URL.createObjectURL(new Blob([encryptedBlob]));
+          } catch (decryptError) {
+            console.warn("Decryption failed, falling back to unencrypted model:", decryptError);
+            modelUrl = "/models/character.glb";
+          }
+        } else {
+          console.warn("Web Crypto API (crypto.subtle) is not available (insecure context). Falling back to unencrypted model.");
+          modelUrl = "/models/character.glb";
+        }
 
         let character: THREE.Object3D;
         loader.load(
-          blobUrl,
+          modelUrl,
           async (gltf) => {
             character = gltf.scene;
 
